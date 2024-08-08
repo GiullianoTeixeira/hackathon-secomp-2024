@@ -14,13 +14,21 @@ def allowed_file(filename):
 def index_html():
     return render_template('index.html')
 
-@app.route('/inserir_info_pt', methods=['GET'])
+@app.route('/insert_info_pt', methods=['GET'])
 def info_pt():
-    return render_template('inserir_info_pt.html')
+    return render_template('insert_info_pt.html')
 
-@app.route('/respostas_pt', methods=['GET'])
-def respostas_pt():
-    return render_template('respostas_pt.html')
+@app.route('/insert_info_en', methods=['GET'])
+def info_en():
+    return render_template('insert_info_en.html')
+
+@app.route('/results_pt', methods=['GET'])
+def results_pt():
+    return render_template('results_pt.html')
+
+@app.route('/results_en', methods=['GET'])
+def results_en():
+    return render_template('results_en.html')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -32,8 +40,8 @@ def index():
         temp_dir = tempfile.mkdtemp()
 
         # Handling text data
-        form_data['nome_maquina'] = request.form.get('machineName')
-        form_data['tipo_maquina'] = request.form.get('machineType')
+        form_data['machine_name'] = request.form.get('machineName')
+        form_data['machine_type'] = request.form.get('machineType')
 
         # Handling image uploads
         for key in request.files:
