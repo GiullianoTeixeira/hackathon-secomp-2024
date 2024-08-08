@@ -17,23 +17,23 @@
 <br>
 
 <form id="form" enctype="multipart/form-data">
-    <button type="button" class="btn" onclick="window.location.href='index.html'">←</button>
+    <button type="button" class="btn" onclick="window.location.href='index'">←</button>
 
     <div class="container">
-        <h3>Informações da Máquina</h3>
+        <h3>Machine Information</h3>
 
         <div class="form-group">
-            <label for="nomeMaquina" class="form-label">Nome da Máquina:</label>
-            <input type="text" class="form-control" id="nomeMaquina" name="nomeMaquina">
+            <label for="machineName" class="form-label">Machine Name:</label>
+            <input type="text" class="form-control" id="machineName" name="machineName">
         </div>
 
         <div class="form-group">
-            <label for="tipoMaquina" class="form-label">Tipo de Máquina:</label>
-            <select class="form-select" id="tipoMaquina" name="tipoMaquina">
+            <label for="machineType" class="form-label">Machine Type:</label>
+            <select class="form-select" id="machineType" name="machineType">
                 <option value="none" selected></option>
                 <option value="motor">Motor</option>
-                <option value="circuito">Circuito</option>
-                <option value="bomba">Bomba</option>
+                <option value="circuit">Circuit</option>
+                <option value="pump">Pump</option>
             </select>
         </div>
 
@@ -41,19 +41,19 @@
 
         <div class="row">
             <div class="col-md-4">
-                <label for="imagem1" class="form-label">Imagem 1</label>
-                <input class="form-control" type="file" id="imagem1" name="imagem1" accept=".png, .jpg, .jpeg">
-                <img id="previewImage1" src="" alt="Nenhum arquivo selecionado">
+                <label for="image1" class="form-label">Imagem 1</label>
+                <input class="form-control" type="file" id="image1" name="image1" accept=".png, .jpg, .jpeg">
+                <img id="previewImage1" src="" alt="No file chosen">
             </div>
             <div class="col-md-4">
-                <label for="imagem2" class="form-label">Imagem 2</label>
-                <input class="form-control" type="file" id="imagem2" name="imagem2" accept=".png, .jpg, .jpeg">
-                <img id="previewImage2" src="" alt="Nenhum arquivo selecionado">
+                <label for="image2" class="form-label">Imagem 2</label>
+                <input class="form-control" type="file" id="image2" name="image2" accept=".png, .jpg, .jpeg">
+                <img id="previewImage2" src="" alt="No file chosen">
             </div>
             <div class="col-md-4">
-                <label for="imagem3" class="form-label">Imagem 3</label>
-                <input class="form-control" type="file" id="imagem3" name="imagem3" accept=".png, .jpg, .jpeg">
-                <img id="previewImage3" src="" alt="Nenhum arquivo selecionado">
+                <label for="image3" class="form-label">Imagem 3</label>
+                <input class="form-control" type="file" id="image3" name="image3" accept=".png, .jpg, .jpeg">
+                <img id="previewImage3" src="" alt="No file chosen">
             </div>
         </div>
 
@@ -64,7 +64,7 @@
     <script>
         function handleFileSelect(event) {
             const input = event.target;
-            const previewId = 'previewImage' + input.id.slice(-1); // Extract preview image id
+            const previewId = 'previewImage' + input.id.slice(-1);
             const previewImage = document.getElementById(previewId);
 
             if (input.files && input.files[0]) {
@@ -88,9 +88,9 @@
             }
         }
 
-        document.getElementById('imagem1').addEventListener('change', handleFileSelect);
-        document.getElementById('imagem2').addEventListener('change', handleFileSelect);
-        document.getElementById('imagem3').addEventListener('change', handleFileSelect);
+        document.getElementById('image1').addEventListener('change', handleFileSelect);
+        document.getElementById('image2').addEventListener('change', handleFileSelect);
+        document.getElementById('image3').addEventListener('change', handleFileSelect);
 
         function sendFormData() {
             const form = document.getElementById('form');
@@ -134,8 +134,7 @@
         });
     </script>
 
-    <!--onclick="window.location.href='respostas.html'"-->
-    <button type="submit" class="btn">Receber Informações</button>
+    <button type="submit" class="btn" onclick="window.location.href='respostas_en'">Get Detailed Information</button>
 </div>
 </body>
 </html>

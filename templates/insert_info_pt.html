@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minerva</title>
+    <link href="../static/styles.css" rel="stylesheet">
+    <style>
+        .btn {
+            transition: 0.5s all;
+        }
+    </style>
+</head>
+<body>    
+<div id="upperBoxRed"></div>
+<div id="upperBoxGrey"></div>
+<br>
+
+<form id="form" enctype="multipart/form-data">
+    <button type="button" class="btn" onclick="window.location.href='index'">←</button>
+
+    <div class="container">
+        <h3>Informações da Máquina</h3>
+
+        <div class="form-group">
+            <label for="machineName" class="form-label">Nome da Máquina:</label>
+            <input type="text" class="form-control" id="machineName" name="machineName">
+        </div>
+
+        <div class="form-group">
+            <label for="machineType" class="form-label">Tipo de Máquina:</label>
+            <select class="form-select" id="machineType" name="machineType">
+                <option value="none" selected></option>
+                <option value="motor">Motor</option>
+                <option value="circuit">Circuito</option>
+                <option value="pump">Bomba</option>
+            </select>
+        </div>
+
+        <h4>Imagens da Máquina</h4>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="image1" class="form-label">Imagem 1</label>
+                <input class="form-control" type="file" id="image1" name="image1" accept=".png, .jpg, .jpeg">
+                <img id="previewImage1" src="" alt="Nenhum arquivo selecionado">
+            </div>
+            <div class="col-md-4">
+                <label for="image2" class="form-label">Imagem 2</label>
+                <input class="form-control" type="file" id="image2" name="image2" accept=".png, .jpg, .jpeg">
+                <img id="previewImage2" src="" alt="Nenhum arquivo selecionado">
+            </div>
+            <div class="col-md-4">
+                <label for="image3" class="form-label">Imagem 3</label>
+                <input class="form-control" type="file" id="image3" name="image3" accept=".png, .jpg, .jpeg">
+                <img id="previewImage3" src="" alt="Nenhum arquivo selecionado">
+            </div>
+        </div>
+
+        <div id="formSummary"></div>
+        <div id="imageSummary"></div>
+    </form>
+
+    <script>
+        function handleFileSelect(event) {
+            const input = event.target;
+            const previewId = 'previewImage' + input.id.slice(-1);
+            const previewImage = document.getElementById(previewId);
+
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const allowedExtensions = ['image/png', 'image/jpeg', 'image/jpg'];
+                if (allowedExtensions.includes(file.type)) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewImage.alt = file.name;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Por favor escolha uma imagem de tipo válido (PNG, JPG, or JPEG).');
+                    previewImage.src = '';
+                    previewImage.alt = 'Nenhum arquivo selecionado';
+                }
+            } else {
+                previewImage.src = '';
+                previewImage.alt = 'Nenhum arquivo selecionado';
+            }
+        }
+
+        document.getElementById('image1').addEventListener('change', handleFileSelect);
+        document.getElementById('image2').addEventListener('change', handleFileSelect);
+        document.getElementById('image3').addEventListener('change', handleFileSelect);
+
+        function sendFormData() {
+            const form = document.getElementById('form');
+            const formData = new FormData(form);
+
+            fetch('http://127.0.0.1:5000/', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+
+                // Render form data summary
+                const formSummary = document.getElementById('formSummary');
+                formSummary.innerHTML = `
+                    <h4>Form Data</h4>
+                    <p><strong>Nome da Máquina:</strong> ${data.form_data.nome_maquina}</p>
+                    <p><strong>Tipo de Máquina:</strong> ${data.form_data.tipo_maquina}</p>
+                `;
+
+                // Render image summary
+                const imageSummary = document.getElementById('imageSummary');
+                let imageList = '<h4>Uploaded Images</h4><ul>';
+
+                for (const [key, filename] of Object.entries(data.image_urls)) {
+                    imageList += `<li><strong>${key}:</strong> ${filename}</li>`;
+                }
+
+                imageList += '</ul>';
+                imageSummary.innerHTML = imageList;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        document.getElementById('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            sendFormData();
+        });
+    </script>
+
+    <button type="submit" class="btn" onclick="window.location.href='respostas_pt'">Receber Informações Detalhadas</button>
+</div>
+</body>
+</html>
