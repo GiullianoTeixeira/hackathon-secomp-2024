@@ -69,7 +69,7 @@
 
             if (input.files && input.files[0]) {
                 const file = input.files[0];
-                const allowedExtensions = ['image/png', 'image/jpeg'];
+                const allowedExtensions = ['image/png', 'image/jpeg', 'image/jpg'];
                 if (allowedExtensions.includes(file.type)) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
