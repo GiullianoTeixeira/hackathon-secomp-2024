@@ -1,11 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Athena</title>
+    <link href="../static/styles.css" rel="stylesheet">
 </head>
 <body>
-    <p>Hello world!!!</p>
+    <div class="container">
+        <h3>Informações da Máquina</h3>
+
+        <div class="form-group">
+            <label for="nomeMaquina" class="form-label">Nome da Máquina:</label>
+            <input type="text" class="form-control" id="nomeMaquina">
+        </div>
+
+        <div class="form-group">
+            <label for="tipoMaquina" class="form-label">Tipo de Máquina:</label>
+            <select class="form-select" id="tipoMaquina">
+                <option value="none" selected></option>
+                <option value="motor">Motor</option>
+                <option value="circuito">Circuito</option>
+            </select>
+        </div>
+
+        <h4>Imagens da Máquina</h4>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="imagem1" class="form-label">Imagem 1</label>
+                <input class="form-control" type="file" id="imagem1">
+                <img src="your-image-path.png" alt="Nenhum arquivo selecionado">
+            </div>
+            <div class="col-md-4">
+                <label for="imagem2" class="form-label">Imagem 2</label>
+                <input class="form-control" type="file" id="imagem2">
+                <img src="#" alt="Nenhum arquivo selecionado">
+            </div>
+            <div class="col-md-4">
+                <label for="imagem3" class="form-label">Imagem 3</label>
+                <input class="form-control" type="file" id="imagem3">
+                <img src="#" alt="Nenhum arquivo selecionado">
+            </div>
+        </div>
+
+        <button type="button" class="btn">Atualizar Ficha Técnica</button>
+
+        <h4>Especificações Técnicas</h4>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label">Nome</label>
+                    <p>motor la 123</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Modelo</label>
+                    <p>Motor Elétrico Trifásico</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label">Tipo</label>
+                    <p>motor</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Identificação</label>
+                    <p>10009204</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label">Fabricante</label>
+                    <p>WEG</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Localização</label>
+                    <p>MOINHO 7</p>
+                </div>
+            </div>
+        </div>
+
+        <h4>Especificações Técnicas</h4>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label">Potência</label>
+                    <p>40 CV (30 kW)</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label">Tensão</label>
+                    <p>380V/660V (estimado)</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label">Frequência</label>
+                    <p>60 Hz</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label">Rotação</label>
+                    <p>1750 RPM (estimado)</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label">Grau de Proteção</label>
+                    <p>IP55</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label">Eficiência</label>
+                    <p>IE3 Premium (estimado)</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
