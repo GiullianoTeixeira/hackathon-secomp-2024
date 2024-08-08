@@ -15,45 +15,51 @@
 <div id="upperBoxRed"></div>
 <div id="upperBoxGrey"></div>
 <br>
-<button type="button" class="btn" onclick="window.location.href='index.html'">←</button>
 
-<div class="container">
-    <h3>Informações da Máquina</h3>
+<form id="form" enctype="multipart/form-data">
+    <button type="button" class="btn" onclick="window.location.href='index.html'">←</button>
 
-    <div class="form-group">
-        <label for="nomeMaquina" class="form-label">Nome da Máquina:</label>
-        <input type="text" class="form-control" id="nomeMaquina">
-    </div>
+    <div class="container">
+        <h3>Informações da Máquina</h3>
 
-    <div class="form-group">
-        <label for="tipoMaquina" class="form-label">Tipo de Máquina:</label>
-        <select class="form-select" id="tipoMaquina">
-            <option value="none" selected></option>
-            <option value="motor">Motor</option>
-            <option value="circuito">Circuito</option>
-            <option value="bomba">Bomba</option>
-        </select>
-    </div>
-
-    <h4>Imagens da Máquina</h4>
-
-    <div class="row">
-        <div class="col-md-4">
-            <label for="imagem1" class="form-label">Imagem 1</label>
-            <input class="form-control" type="file" id="imagem1" accept=".png, .jpg, .jpeg">
-            <img id="previewImage1" src="" alt="Nenhum arquivo selecionado">
+        <div class="form-group">
+            <label for="nomeMaquina" class="form-label">Nome da Máquina:</label>
+            <input type="text" class="form-control" id="nomeMaquina" name="nomeMaquina">
         </div>
-        <div class="col-md-4">
-            <label for="imagem2" class="form-label">Imagem 2</label>
-            <input class="form-control" type="file" id="imagem2" accept=".png, .jpg, .jpeg">
-            <img id="previewImage2" src="" alt="Nenhum arquivo selecionado">
+
+        <div class="form-group">
+            <label for="tipoMaquina" class="form-label">Tipo de Máquina:</label>
+            <select class="form-select" id="tipoMaquina" name="tipoMaquina">
+                <option value="none" selected></option>
+                <option value="motor">Motor</option>
+                <option value="circuito">Circuito</option>
+                <option value="bomba">Bomba</option>
+            </select>
         </div>
-        <div class="col-md-4">
-            <label for="imagem3" class="form-label">Imagem 3</label>
-            <input class="form-control" type="file" id="imagem3" accept=".png, .jpg, .jpeg">
-            <img id="previewImage3" src="" alt="Nenhum arquivo selecionado">
+
+        <h4>Imagens da Máquina</h4>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="imagem1" class="form-label">Imagem 1</label>
+                <input class="form-control" type="file" id="imagem1" name="imagem1" accept=".png, .jpg, .jpeg">
+                <img id="previewImage1" src="" alt="Nenhum arquivo selecionado">
+            </div>
+            <div class="col-md-4">
+                <label for="imagem2" class="form-label">Imagem 2</label>
+                <input class="form-control" type="file" id="imagem2" name="imagem2" accept=".png, .jpg, .jpeg">
+                <img id="previewImage2" src="" alt="Nenhum arquivo selecionado">
+            </div>
+            <div class="col-md-4">
+                <label for="imagem3" class="form-label">Imagem 3</label>
+                <input class="form-control" type="file" id="imagem3" name="imagem3" accept=".png, .jpg, .jpeg">
+                <img id="previewImage3" src="" alt="Nenhum arquivo selecionado">
+            </div>
         </div>
-    </div>
+
+        <div id="formSummary"></div>
+        <div id="imageSummary"></div>
+    </form>
 
     <script>
         function handleFileSelect(event) {
@@ -86,85 +92,50 @@
         document.getElementById('imagem2').addEventListener('change', handleFileSelect);
         document.getElementById('imagem3').addEventListener('change', handleFileSelect);
 
-        console.log(imagem1.src);
+        function sendFormData() {
+            const form = document.getElementById('form');
+            const formData = new FormData(form);
+
+            fetch('http://127.0.0.1:5000/', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+
+                // Render form data summary
+                const formSummary = document.getElementById('formSummary');
+                formSummary.innerHTML = `
+                    <h4>Form Data</h4>
+                    <p><strong>Nome da Máquina:</strong> ${data.form_data.nome_maquina}</p>
+                    <p><strong>Tipo de Máquina:</strong> ${data.form_data.tipo_maquina}</p>
+                `;
+
+                // Render image summary
+                const imageSummary = document.getElementById('imageSummary');
+                let imageList = '<h4>Uploaded Images</h4><ul>';
+
+                for (const [key, filename] of Object.entries(data.image_urls)) {
+                    imageList += `<li><strong>${key}:</strong> ${filename}</li>`;
+                }
+
+                imageList += '</ul>';
+                imageSummary.innerHTML = imageList;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        document.getElementById('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            sendFormData();
+        });
     </script>
 
-    <button type="button" class="btn">Atualizar Ficha Técnica</button>
-
-    <h4>Especificações Técnicas</h4>
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="form-label">Nome</label>
-                <p></p>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Modelo</label>
-                <p></p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="form-label">Tipo</label>
-                <p>motor</p>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Identificação</label>
-                <p>10009204</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="form-label">Fabricante</label>
-                <p>WEG</p>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Localização</label>
-                <p>MOINHO 7</p>
-            </div>
-        </div>
-    </div>
-
-    <h4>Especificações Técnicas</h4>
-
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="form-label">Potência</label>
-                <p>40 CV (30 kW)</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="form-label">Tensão</label>
-                <p>380V/660V (estimado)</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="form-label">Frequência</label>
-                <p>60 Hz</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="form-label">Rotação</label>
-                <p>1750 RPM (estimado)</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="form-label">Grau de Proteção</label>
-                <p>IP55</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="form-label">Eficiência</label>
-                <p>IE3 Premium (estimado)</p>
-            </div>
-        </div>
-    </div>
+    <!--onclick="window.location.href='respostas.html'"-->
+    <button type="submit" class="btn">Receber Informações</button>
 </div>
 </body>
+</html>
