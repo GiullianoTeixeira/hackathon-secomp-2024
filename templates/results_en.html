@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minerva</title>
+    <link href="../static/styles.css" rel="stylesheet">
+    <style>
+        .btn {
+            transition: 0.5s all;
+        }
+    </style>
+</head>
+<body>    
+<div id="upperBoxRed"></div>
+<div id="upperBoxGrey"></div>
+<br>
+<button type="button" class="btn" onclick="window.location.href='insert_info_en'">←</button>
+
+<div class="container">
+    <h4>Specification Sheet</h4>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="form-label">Name</label>
+                <p></p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Model</label>
+                <p></p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="form-label">Type</label>
+                <p></p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">ID</label>
+                <p></p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="form-label">Source</label>
+                <p></p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Location</label>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="form-label">Power</label>
+                <p></p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="form-label">Voltage</label>
+                <p></p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="form-label">Frequency</label>
+                <p></p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="form-label">Rotation</label>
+                <p></p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="form-label">Protection</label>
+                <p></p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="form-label">Efficiency</label>
+                <p></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    fetch('/data_en')
+        .then(response => response.json())
+        .then(data => {
+            updateHTML(data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
+    function updateHTML(data) {
+        const labels = {
+            'Name': data.nome,
+            'Model': data.modelo,
+            'Type': data.tipo,
+            'ID': data.identificacao,
+            'Source': data.fabricante,
+            'Location': data.localizacao,
+            'Power': data.potencia,
+            'Voltage': data.tensao,
+            'Frequency': data.frequencia,
+            'Rotation': data.rotacao,
+            'Protection': data.grau_protecao,
+            'Efficiency': data.eficiencia
+        };
+
+        Object.keys(labels).forEach(label => {
+            const element = Array.from(document.querySelectorAll('label')).find(labelEl => labelEl.textContent.trim() === label);
+            if (element) {
+                const pTag = element.nextElementSibling;
+                if (pTag && pTag.tagName === 'P') {
+                    pTag.textContent = labels[label];
+                }
+            }
+        });
+    }
+</script>
+</body>
